@@ -1,4 +1,5 @@
 # Goal
+
 This assignment aimed to create a model for which we could reduce the costs associated with heart attacks in the national healthcare system by 20%. For that task, we were given a dataset with data related to people’s health and a binary label that indicates if the person had a heart attack.
 
 We had all the data needed to perform the assignment, except for the probability that a person adheres to the proposed plan by the doctor. Without that information, we wouldn’t be able to predict how much the savings would be for the healthcare system. However, we can estimate the minimum percentage of people adhering to the plan so that we can save 20% of the associated costs.
@@ -89,15 +90,34 @@ Having this formula, we can now start analysing and cleaning the data so that we
 
 # Data analysis and cleaning
 
-TODO macari
+Before starting to apply models we proceeded to inspect the data, looking for missing values and evaluating how the data is distributted.
+
+First, we evaluated the distribution of the target variable which shows that the negative (no heartattack) samples largely exceed the positive samples (heartattack) in approxcimate ratio of 1:9. This help us identify a possible problem with the model to develop, as we will have to keep it in check so it does not overly favors negative predictions. In Figure 1, the proportion of negative and positive samples can be observed. Moreover, this unbalance extedns to other attributes in the dataset, altough in a more less drastic manner, like in the case of the `Sex` attribute. 
+
+![[Figure 1.png]]
+
+Additionally, we observed inconsistensis between the data and the description given. For instance, the attributes `PhysHlth` and `MentHlth` are described to be values between 1 to 5 but in reality these  are actually in between 0 to 30 with no specific logic behind it. Furthermore, the attribute `Diabetes` is suposed to be binary but it is actually presents three diferent values (0, 1, and 2),  therefore we splited this variables into two `diabetes_1` and `diabetes_2` to signify diabetes type 1 and type 2 respectively. Finally, we identified samples that had negative values in the `Age` attribute which we dropped. 
+
+Latly, in terms of missing data, we decided to drop the rows that presented missing values as after inspections there were 27 rows presenting missing values wich represents only 0.01% of the dataset and therefore having little to no effect. 
 
 # Prediction model
 
-TODO macari
+Now we the data properly preprared, we decided to quickly test different classification models to evaluate multiple models, in specific Logistic Regression, Naive Bayes, Decision Trees, Random Forest, and KNN. This would allow us to get a quick grasp of which model is responding better to the dataset and devlivering better results.
+
+From the first run, despite getting good accuracy scores under further inspection when evaluating the confusion matrix of the different models we can see that the models are mostly inclining to make a negative prediction instead of properly learning. This results can be seen on Figure 2, Accuracy of the models and Figure 3 Confusion matrices of the models
+![[Figure 2.png]]
+![[Figure 3.png]]
+
+After this we decided to try to solve this skew in the results, therefore we restested the models with both oversampling and undersampling the dataset in order to have a more baanced distribution of the data and reduce the strong skew in the prediction. The results of the models with oversampled and undersampled data can be seen in Figure 4 and Figure 5 for oversampled and Figure 6 and Figure 7 for undersampled. 
+![[Figure 4.png]]
+![[Figure 5.png]]
+
+![[Figure 6.png]]
+![[Figure 7.png]]
 
 At the end, we decided to use the random forest classifier, taking into account that the model was the one performing better. In order to maximize performance, we decided to create a hyper parameter tuning pipeline with different parameters for this model.
 
-In order to run this pipeline, we need to select a performance metric, which the algorithm will take into account in order to select the best model out of all of them. We tried using `f1_score_weighted`and `recall`. However, the most important type of person to classify correctly are the people who will have a heart attack, because if it goes undetected, the cost is really high. This makes really important to obtain the highest TPR (True positive rate) possible. On the `f1_score_weighted` score, even if it takes those into account, they doesn't have the importance that they do in our problem. Then, it felt straightforward to go for `recall`, the issue was that it was barely classifying correctly the negative cases in order to maximize the true positives, which at the end didn't perform as expected.
+In order to run this pipeline, we need to select a performance metric, which the algorithm will take into account in order to select the best model out of all of them. We tried using `f1_score_weighted` and  `recall`. However, the most important type of person to classify correctly are the people who will have a heart attack, because if it goes undetected, the cost is really high. This makes really important to obtain the highest TPR (True positive rate) possible. On the `f1_score_weighted` score, even if it takes those into account, they doesn't have the importance that they do in our problem. Then, it felt straightforward to go for `recall`, the issue was that it was barely classifying correctly the negative cases in order to maximize the true positives, which at the end didn't perform as expected.
 
 For that reason, we decided to build our own performance metric, the adherence probability to the plan, which we can see down below. We return -1000 in order for the function to be used correctly by `GridSearchCV` from the `sklearn`library.
 
