@@ -94,7 +94,7 @@ Before starting to apply models we proceeded to inspect the data, looking for mi
 
 First, we evaluated the distribution of the target variable which shows that the negative (no heartattack) samples largely exceed the positive samples (heartattack) in approxcimate ratio of 1:9. This help us identify a possible problem with the model to develop, as we will have to keep it in check so it does not overly favors negative predictions. In Figure 1, the proportion of negative and positive samples can be observed. Moreover, this unbalance extedns to other attributes in the dataset, altough in a more less drastic manner, like in the case of the `Sex` attribute. 
 
-![image](./Figure%201.png)
+![image](./image/Figure1.png)
 
 Additionally, we observed inconsistensis between the data and the description given. For instance, the attributes `PhysHlth` and `MentHlth` are described to be values between 1 to 5 but in reality these  are actually in between 0 to 30 with no specific logic behind it. Furthermore, the attribute `Diabetes` is suposed to be binary but it is actually presents three diferent values (0, 1, and 2),  therefore we splited this variables into two `diabetes_1` and `diabetes_2` to signify diabetes type 1 and type 2 respectively. Finally, we identified samples that had negative values in the `Age` attribute which we dropped. 
 
@@ -105,15 +105,16 @@ Latly, in terms of missing data, we decided to drop the rows that presented miss
 Now we the data properly preprared, we decided to quickly test different classification models to evaluate multiple models, in specific Logistic Regression, Naive Bayes, Decision Trees, Random Forest, and KNN. This would allow us to get a quick grasp of which model is responding better to the dataset and devlivering better results.
 
 From the first run, despite getting good accuracy scores under further inspection when evaluating the confusion matrix of the different models we can see that the models are mostly inclining to make a negative prediction instead of properly learning. This results can be seen on Figure 2, Accuracy of the models and Figure 3 Confusion matrices of the models
-![[Figure 2.png]]
-![[Figure 3.png]]
+![image](./image/Figure2.png)
+![image](./image/Figure3.png)
 
 After this we decided to try to solve this skew in the results, therefore we restested the models with both oversampling and undersampling the dataset in order to have a more baanced distribution of the data and reduce the strong skew in the prediction. The results of the models with oversampled and undersampled data can be seen in Figure 4 and Figure 5 for oversampled and Figure 6 and Figure 7 for undersampled. 
-![[Figure 4.png]]
-![[Figure 5.png]]
 
-![[Figure 6.png]]
-![[Figure 7.png]]
+![image](./image/Figure4.png)
+![image](./image/Figure5.png)
+
+![image](./image/Figure6.png)
+![image](./image/Figure7.png)
 
 At the end, we decided to use the random forest classifier, taking into account that the model was the one performing better. In order to maximize performance, we decided to create a hyper parameter tuning pipeline with different parameters for this model.
 
