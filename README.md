@@ -94,7 +94,7 @@ Before starting to apply models we proceeded to inspect the data, looking for mi
 
 First, we evaluated the distribution of the target variable which shows that the negative (no heartattack) samples largely exceed the positive samples (heartattack) in approxcimate ratio of 1:9. This help us identify a possible problem with the model to develop, as we will have to keep it in check so it does not overly favors negative predictions. In Figure 1, the proportion of negative and positive samples can be observed. Moreover, this unbalance extedns to other attributes in the dataset, altough in a more less drastic manner, like in the case of the `Sex` attribute. 
 
-![[Figure 1.png]]
+![image](./Figure%201.png)
 
 Additionally, we observed inconsistensis between the data and the description given. For instance, the attributes `PhysHlth` and `MentHlth` are described to be values between 1 to 5 but in reality these  are actually in between 0 to 30 with no specific logic behind it. Furthermore, the attribute `Diabetes` is suposed to be binary but it is actually presents three diferent values (0, 1, and 2),  therefore we splited this variables into two `diabetes_1` and `diabetes_2` to signify diabetes type 1 and type 2 respectively. Finally, we identified samples that had negative values in the `Age` attribute which we dropped. 
 
